@@ -1,3 +1,15 @@
+export async function onRequest(context) {
+    const request = context.request;
+    const origin = request.headers.get("Origin");
+    const allowedOrigin = "https://app.byvoxel.com"; // Tu dominio real
+
+    // Si la petición viene de otro lado (y no es null/postman), bloquéala
+    if (origin && origin !== allowedOrigin && !origin.includes("localhost")) {
+        return new Response("Acceso prohibido: No robes mi API", { status: 403 });
+    }
+
+
+
 // functions/api/calculate.js
 
 // 1. DATOS (Tablas del NEC)
@@ -179,4 +191,5 @@ export async function onRequest(context) {
     return new Response(JSON.stringify(result), {
         headers: { "Content-Type": "application/json" }
     });
+
 }
